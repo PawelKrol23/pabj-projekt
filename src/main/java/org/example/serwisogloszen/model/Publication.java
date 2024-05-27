@@ -2,6 +2,8 @@ package org.example.serwisogloszen.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -24,6 +26,10 @@ public class Publication {
     private String description;
     private String author;
     private String publisher;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @CreationTimestamp
     private LocalDateTime creationDate;
