@@ -22,8 +22,12 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+                .logout(logout -> {
+                    logout.logoutSuccessUrl("/").permitAll();
+                })
+                .formLogin(login -> {
+                    login.defaultSuccessUrl("/publications", true).permitAll();
+                });
 
         return http.build();
     }
