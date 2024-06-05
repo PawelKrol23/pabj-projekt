@@ -37,29 +37,12 @@ public class PublicationController {
 
     @PostMapping("/add")
     public String addPublication(@Valid @ModelAttribute("publication") PublicationDTO dto,
-                          BindingResult bindingResult) {
-
+                                 BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "redirect:/publications/add";
         }
 
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserEntity loggedUser = userService.getUserByName(authentication.getName());
-//
-//        Category category = categoryService.getCategoryByName(dto.getCategoryName(), loggedUser.getId());
-//        Status status = statusService.getStatusByName(dto.getStatusName(), loggedUser.getId());
-//
-//
-//        Task task = new Task();
-//        task.setOwner(userService.getUserById(loggedUser.getId()));
-//        task.setSummary(dto.getSummary());
-//        task.setDescription(dto.getDescription());
-//        task.setStartDate(LocalDateTime.parse(dto.getStartDate()));
-//        task.setEndDate(LocalDateTime.parse(dto.getEndDate()));
-//        task.setTaskCategory(category);
-//        task.setStatus(status);
-//        taskService.save(task);
-
+        publicationService.createNewPublication(dto);
         return "redirect:/publications";
     }
 }

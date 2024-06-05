@@ -15,6 +15,7 @@ import java.util.Objects;
 @ToString
 @Setter
 @Getter
+@Builder
 @Entity
 public class Publication {
     @Id

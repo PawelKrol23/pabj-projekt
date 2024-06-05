@@ -16,10 +16,12 @@
         padding: 20px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         width: 50%;
-        margin: 2rem auto;
+        margin: 3rem auto;
     }
-
 </style>
+
+<div th:insert="~{commons :: navbar}"></div>
+
 <div class="container">
   <h2 class="text-center my-3">Add new publication</h2>
   <div class="d-flex justify-content-center">
@@ -35,20 +37,10 @@
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
         <textarea placeholder="Short description..." type="text" aria-describedby="validationName" class="form-control form-control-sm" id="description"
-                  th:field="*{description}" required></textarea>
+                  th:field="*{description}" rows="5" required></textarea>
       </div>
       <div class="row">
-        <div class="mb-3 col-md-6">
-          <label for="startDate" class="form-label">Start Date</label>
-          <input type="datetime-local" class="form-control form-control-sm" name="startDate" id="startDate" required>
-        </div>
-        <div class="mb-3 col-md-6">
-          <label for="endDate" class="form-label">End Date</label>
-          <input type="datetime-local" class="form-control form-control-sm" name="endDate" id="endDate" required>
-        </div>
-      </div>
-      <div class="row">
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md">
           <label for="category" class="form-label">Category</label>
           <select th:field="*{categoryName}" class="form-select form-select-sm" id="category" required>
             <option th:each="category: ${categories}"
@@ -57,14 +49,6 @@
 
           </select>
         </div>
-<!--        <div class="mb-3 col-md-6">-->
-<!--          <label for="status" class="form-label">Status</label>-->
-<!--          <select th:field="*{statusName}" class="form-select form-select-sm" id="status" required>-->
-<!--            <option th:each="status: ${statuses}"-->
-<!--                    th:value="${status.getName()}"-->
-<!--                    th:text="${status.getName()}"/></option>-->
-<!--          </select>-->
-<!--        </div>-->
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-primary btn-sm mt-4">Add Task</button>

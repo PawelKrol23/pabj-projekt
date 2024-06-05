@@ -12,7 +12,7 @@
 <div class="container mt-4">
   <h1 class="text-center">List of Publications</h1>
   <div class="d-flex justify-content-center mb-2">
-    <a th:href="@{/task/add}" class="btn btn-primary my-3" role="button">Add new Publication +</a>
+    <a th:href="@{/publications/add}" class="btn btn-primary my-3" role="button">Add new Publication +</a>
   </div>
   <div class="row">
     <div class="col-md-4" th:each="publication : ${publications}">
@@ -31,8 +31,8 @@
             </div>
           </div>
           <div class="d-flex justify-content-center align-items-center mt-3">
-            <a th:href="@{|/task/edit/${publication.id}|} "class="btn btn-sm btn-outline-info me-2 " role="button">Edit</a>
-            <form method="post" th:action="@{|/task/delete/${publication.id}|} "lass="w-50">
+            <a th:href="@{|/publication/edit/${publication.id}|} "class="btn btn-sm btn-outline-info me-2 " role="button">Edit</a>
+            <form method="post" th:action="@{|/publication/delete/${publication.id}|}">
               <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
             </form>
           </div>
