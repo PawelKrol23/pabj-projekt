@@ -42,4 +42,8 @@ public class PublicationService {
 
         return publicationRepository.save(foundPublication);
     }
+
+    public void deletePublicationById(Long publicationId) {
+        publicationRepository.deleteById(publicationId);
+    }
 }

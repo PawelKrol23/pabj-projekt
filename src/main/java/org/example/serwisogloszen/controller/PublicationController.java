@@ -74,4 +74,10 @@ public class PublicationController {
         publicationService.updatePublication(publicationId, dto);
         return "redirect:/publications";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteTask(@PathVariable("id") Long publicationId) {
+        publicationService.deletePublicationById(publicationId);
+        return "redirect:/publications";
+    }
 }
