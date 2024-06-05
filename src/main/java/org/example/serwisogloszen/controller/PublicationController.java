@@ -37,9 +37,11 @@ public class PublicationController {
 
     @PostMapping("/add")
     public String addPublication(@Valid @ModelAttribute("publication") PublicationDTO dto,
-                                 BindingResult bindingResult) {
+                                 BindingResult bindingResult,
+                                 Model model) {
         if(bindingResult.hasErrors()) {
-            return "redirect:/publications/add";
+            model.addAttribute("categories", categoryService.getCategories());
+            return "publication/add";
         }
 
         publicationService.createNewPublication(dto);

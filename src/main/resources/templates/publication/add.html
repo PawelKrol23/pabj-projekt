@@ -36,22 +36,22 @@
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea placeholder="Short description..." type="text" aria-describedby="validationName" class="form-control form-control-sm" id="description"
-                  th:field="*{description}" rows="5" required></textarea>
+        <div class="input-group" th:classappend="${#fields.hasErrors('description') ? 'has-validation' : ''}">
+          <textarea placeholder="Short description..." type="text" aria-describedby="validationDescription" class="form-control form-control-sm" id="description"
+                    th:field="*{description}" rows="5" th:classappend="${#fields.hasErrors('description') ? 'is-invalid' : ''}" required></textarea>
+          <div id="validationDescription" class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
       </div>
       <div class="row">
         <div class="mb-3 col-md">
           <label for="category" class="form-label">Category</label>
           <select th:field="*{categoryName}" class="form-select form-select-sm" id="category" required>
-            <option th:each="category: ${categories}"
-                    th:value="${category.getName()}"
-                    th:text="${category.getName()}"/></option>
-
+            <option th:each="category: ${categories}" th:value="${category.getName()}" th:text="${category.getName()}"></option>
           </select>
         </div>
       </div>
       <div class="text-center">
-        <button type="submit" class="btn btn-primary btn-sm mt-4">Add Task</button>
+        <button type="submit" class="btn btn-primary btn-sm mt-4">Add Publication</button>
       </div>
     </form>
   </div>
