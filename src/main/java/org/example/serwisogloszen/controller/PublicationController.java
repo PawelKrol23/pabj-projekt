@@ -2,13 +2,9 @@ package org.example.serwisogloszen.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.serwisogloszen.model.Publication;
 import org.example.serwisogloszen.model.dto.PublicationDTO;
 import org.example.serwisogloszen.service.CategoryService;
 import org.example.serwisogloszen.service.PublicationService;
-import org.springframework.scheduling.config.Task;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,9 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Controller
 @RequestMapping("/publications")
