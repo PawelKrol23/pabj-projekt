@@ -1,6 +1,7 @@
 package org.example.serwisogloszen.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,11 +20,10 @@ public class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Size(min = 5, max = 100)
     private String title;
+    @Size(min = 5, max = 1000)
     private String description;
-    private String author;
-    private String publisher;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

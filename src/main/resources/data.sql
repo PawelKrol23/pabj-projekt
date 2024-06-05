@@ -12,5 +12,5 @@ INSERT INTO Category (name) VALUES ('gry');
 INSERT INTO Category (name) VALUES ('dom');
 
 -- Publications
-INSERT INTO Publication (title, description, author, publisher, category_id, creation_date)
-VALUES ('kebab', 'pyszny kebab', 'lewy', 'amogus', 1, '2023-11-22');
+INSERT INTO Publication (title, description, category_id, creation_date)
+VALUES ('kebab', 'pyszny kebab', 1, '2023-11-22');
