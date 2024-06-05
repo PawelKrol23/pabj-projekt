@@ -32,4 +32,14 @@ public class PublicationService {
 
         return publicationRepository.save(newPublication);
     }
+
+    public Publication updatePublication(Long publicationId, PublicationDTO dto) {
+        var foundPublication = getPublicationById(publicationId);
+        foundPublication.setTitle(dto.getTitle());
+        foundPublication.setDescription(dto.getDescription());
+        var foundCategory = categoryRepository.findByName(dto.getCategoryName());
+        foundPublication.setCategory(foundCategory);
+
+        return publicationRepository.save(foundPublication);
+    }
 }

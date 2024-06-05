@@ -46,8 +46,8 @@ public class PublicationController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editTaskForm(@PathVariable("id") Long publicationId,
-                               Model model){
+    public String editPublicationForm(@PathVariable("id") Long publicationId,
+                                      Model model){
         var foundPublication = publicationService.getPublicationById(publicationId);
         var publicationDto = PublicationDTO.builder()
                 .title(foundPublication.getTitle())
@@ -58,5 +58,20 @@ public class PublicationController {
         model.addAttribute("publication", publicationDto);
         model.addAttribute("categories", categoryService.getCategories());
         return "publication/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editPublication(@PathVariable("id") Long publicationId,
+                                  @Valid @ModelAttribute("publication") PublicationDTO dto,
+                                  BindingResult bindingResult,
+                                  Model model) {
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategories());
+            model.addAttribute("publicationId", publicationId);
+            return "publication/edit";
+        }
+
+        publicationService.updatePublication(publicationId, dto);
+        return "redirect:/publications";
     }
 }
