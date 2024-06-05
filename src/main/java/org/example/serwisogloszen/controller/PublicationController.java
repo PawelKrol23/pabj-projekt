@@ -8,10 +8,7 @@ import org.example.serwisogloszen.service.PublicationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/publications")
@@ -46,5 +43,20 @@ public class PublicationController {
 
         publicationService.createNewPublication(dto);
         return "redirect:/publications";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editTaskForm(@PathVariable("id") Long publicationId,
+                               Model model){
+        var foundPublication = publicationService.getPublicationById(publicationId);
+        var publicationDto = PublicationDTO.builder()
+                .title(foundPublication.getTitle())
+                .description(foundPublication.getDescription())
+                .build();
+
+        model.addAttribute("publicationId", publicationId);
+        model.addAttribute("publication", publicationDto);
+        model.addAttribute("categories", categoryService.getCategories());
+        return "publication/edit";
     }
 }

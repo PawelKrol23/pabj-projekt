@@ -2,9 +2,14 @@ package org.example.serwisogloszen.model.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Setter
+@Getter
+@Builder
 public class PublicationDTO {
     @Size(min = 5, max = 100)
     private String title = "";

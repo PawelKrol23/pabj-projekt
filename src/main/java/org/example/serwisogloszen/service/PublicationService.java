@@ -19,6 +19,10 @@ public class PublicationService {
         return publicationRepository.findAll();
     }
 
+    public Publication getPublicationById(Long publicationId) {
+        return publicationRepository.findById(publicationId).orElseThrow();
+    }
+
     public Publication createNewPublication(PublicationDTO dto) {
         var newPublication = Publication.builder()
                 .title(dto.getTitle())
