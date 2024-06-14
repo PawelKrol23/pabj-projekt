@@ -1,19 +1,18 @@
 package org.example.serwisogloszen.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.List;
 import java.util.Objects;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Setter
+@Getter
+@Builder
 @Entity
 public class Category {
     @Id
