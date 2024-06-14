@@ -30,6 +30,10 @@ public class Publication {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
     @CreationTimestamp
     private LocalDateTime creationDate;
     @UpdateTimestamp
