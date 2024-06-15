@@ -64,4 +64,10 @@ public class PublicationService {
         foundPublication.setModerationState(Publication.ModerationState.ACCEPTED);
         publicationRepository.save(foundPublication);
     }
+
+    public void rejectPublicationById(Long publicationId) {
+        var foundPublication = getPublicationById(publicationId);
+        foundPublication.setModerationState(Publication.ModerationState.REJECTED);
+        publicationRepository.save(foundPublication);
+    }
 }

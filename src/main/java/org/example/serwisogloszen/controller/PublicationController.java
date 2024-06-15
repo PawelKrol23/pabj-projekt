@@ -110,4 +110,10 @@ public class PublicationController {
         publicationService.acceptPublicationById(publicationId);
         return "redirect:/publications/moderate";
     }
+
+    @PostMapping("/moderate/{id}/reject")
+    public String rejectPublication(@PathVariable("id") Long publicationId) {
+        publicationService.rejectPublicationById(publicationId);
+        return "redirect:/publications/moderate";
+    }
 }
