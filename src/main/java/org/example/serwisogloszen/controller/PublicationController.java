@@ -2,9 +2,13 @@ package org.example.serwisogloszen.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.PublicationDTO;
 import org.example.serwisogloszen.service.CategoryService;
 import org.example.serwisogloszen.service.PublicationService;
+import org.example.serwisogloszen.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class PublicationController {
     private final PublicationService publicationService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
     @GetMapping
     public String listPublications(Model model) {
@@ -49,6 +54,10 @@ public class PublicationController {
     public String editPublicationForm(@PathVariable("id") Long publicationId,
                                       Model model){
         var foundPublication = publicationService.getPublicationById(publicationId);
+        if(foundPublication.getUser() != userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName()))
+        {
+            return "redirect:/publications";
+        }
         var publicationDto = PublicationDTO.builder()
                 .title(foundPublication.getTitle())
                 .description(foundPublication.getDescription())
@@ -77,6 +86,12 @@ public class PublicationController {
 
     @PostMapping("/delete/{id}")
     public String deleteTask(@PathVariable("id") Long publicationId) {
+
+        var foundPublication = publicationService.getPublicationById(publicationId);
+        if(foundPublication.getUser() != userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName()))
+        {
+            return "redirect:/publications";
+        }
         publicationService.deletePublicationById(publicationId);
         return "redirect:/publications";
     }
