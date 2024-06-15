@@ -28,8 +28,10 @@
             </div>
           </div>
           <div class="d-flex justify-content-center align-items-center mt-3">
-            <a th:href="@{|/publications/edit/${publication.id}|} "class="btn btn-sm btn-outline-success me-2 " role="button">Accept</a>
-            <form method="post" th:action="@{|/publications/delete/${publication.id}|}">
+            <form method="post" th:action="@{|/publications/moderate/${publication.id}/accept|}">
+              <button type="submit" class="btn btn-sm btn-outline-success me-2">Accept</button>
+            </form>
+            <form method="post" th:action="@{|/publications/delete/${publication.id}/reject|}">
               <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
             </form>
           </div>

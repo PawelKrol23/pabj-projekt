@@ -104,4 +104,10 @@ public class PublicationController {
         model.addAttribute("publications", publicationService.getPublicationsToModerate());
         return "publication/moderate";
     }
+
+    @PostMapping("/moderate/{id}/accept")
+    public String acceptPublication(@PathVariable("id") Long publicationId) {
+        publicationService.acceptPublicationById(publicationId);
+        return "redirect:/publications/moderate";
+    }
 }

@@ -29,6 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/categories/edit/*").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/delete/*").hasAnyAuthority("ADMIN")
                         .requestMatchers("/publications/moderate").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/publications/moderate/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> {

@@ -58,4 +58,10 @@ public class PublicationService {
     public List<Publication> getPublicationsToModerate() {
         return publicationRepository.findByModerationState(Publication.ModerationState.WAITING_FOR_APPROVAL);
     }
+
+    public void acceptPublicationById(Long publicationId) {
+        var foundPublication = getPublicationById(publicationId);
+        foundPublication.setModerationState(Publication.ModerationState.ACCEPTED);
+        publicationRepository.save(foundPublication);
+    }
 }
