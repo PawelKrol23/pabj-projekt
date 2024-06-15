@@ -29,13 +29,17 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/categories").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/categories/add").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/categories/edit/*").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/categories/delete/*").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> {
                     logout.logoutSuccessUrl("/").permitAll();
                 })
                 .formLogin(login -> {
-                    login.defaultSuccessUrl("/publications", true).permitAll();
+                    login.defaultSuccessUrl("/publications/own", true).permitAll();
                 });
 
         return http.build();

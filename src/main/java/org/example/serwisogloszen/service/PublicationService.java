@@ -21,10 +21,12 @@ public class PublicationService {
     private final UserRepository userRepository;
 
     public List<Publication> getAllPublications() {
+        return publicationRepository.findAll();
+    }
+    public List<Publication> getOwnPublications() {
         UserEntity user = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         return user.getPublications();
     }
-
     public Publication getPublicationById(Long publicationId) {
         return publicationRepository.findById(publicationId).orElseThrow();
     }

@@ -22,9 +22,14 @@ public class PublicationController {
     private final CategoryService categoryService;
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping()
     public String listPublications(Model model) {
         model.addAttribute("publications", publicationService.getAllPublications());
+        return "publication/listAll";
+    }
+    @GetMapping("/own")
+    public String listOwnPublications(Model model) {
+        model.addAttribute("publications", publicationService.getOwnPublications());
         return "publication/list";
     }
 
