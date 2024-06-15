@@ -2,9 +2,12 @@ package org.example.serwisogloszen.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.serwisogloszen.model.Publication;
+import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.PublicationDTO;
 import org.example.serwisogloszen.repository.CategoryRepository;
 import org.example.serwisogloszen.repository.PublicationRepository;
+import org.example.serwisogloszen.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +18,15 @@ public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final CategoryRepository categoryRepository;
 
+    private final UserRepository userRepository;
+
     public List<Publication> getAllPublications() {
         return publicationRepository.findAll();
     }
-
+    public List<Publication> getOwnPublications() {
+        UserEntity user = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return user.getPublications();
+    }
     public Publication getPublicationById(Long publicationId) {
         return publicationRepository.findById(publicationId).orElseThrow();
     }
@@ -28,6 +36,7 @@ public class PublicationService {
                 .title(dto.getTitle())
                 .description(dto.getDescription())
                 .category(categoryRepository.findByName(dto.getCategoryName()))
+                .user(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()))
                 .build();
 
         return publicationRepository.save(newPublication);
