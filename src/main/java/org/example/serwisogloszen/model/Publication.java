@@ -34,6 +34,15 @@ public class Publication {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    public enum ModerationState {
+        WAITING_FOR_APPROVAL,
+        ACCEPTED,
+        REJECTED
+    }
+
+    @Enumerated(EnumType.STRING)
+    private ModerationState moderationState = ModerationState.WAITING_FOR_APPROVAL;
+
     @CreationTimestamp
     private LocalDateTime creationDate;
     @UpdateTimestamp

@@ -2,12 +2,10 @@ package org.example.serwisogloszen.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.PublicationDTO;
 import org.example.serwisogloszen.service.CategoryService;
 import org.example.serwisogloszen.service.PublicationService;
 import org.example.serwisogloszen.service.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,5 +97,11 @@ public class PublicationController {
         }
         publicationService.deletePublicationById(publicationId);
         return "redirect:/publications";
+    }
+
+    @GetMapping("/moderate")
+    public String listPublicationsToModerate(Model model) {
+        model.addAttribute("publications", publicationService.getPublicationsToModerate());
+        return "publication/moderate";
     }
 }

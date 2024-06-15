@@ -55,4 +55,8 @@ public class PublicationService {
     public void deletePublicationById(Long publicationId) {
         publicationRepository.deleteById(publicationId);
     }
+
+    public List<Publication> getPublicationsToModerate() {
+        return publicationRepository.findByModerationState(Publication.ModerationState.WAITING_FOR_APPROVAL);
+    }
 }
