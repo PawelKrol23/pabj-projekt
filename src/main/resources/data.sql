@@ -1,7 +1,7 @@
 
 -- Insert Users
-INSERT INTO UserEntity (login, password, rola) VALUES ('userek', 'userek', 0);
-INSERT INTO UserEntity (login, password, rola) VALUES ('admin', 'admin', 1);
+INSERT INTO User_Entity (login, password, rola) VALUES ('userek', 'userek', 'USER');
+INSERT INTO User_Entity (login, password, rola) VALUES ('admin', 'admin', 'ADMIN');
 
 
 -- Categories
