@@ -22,7 +22,7 @@ public class PublicationController {
 
     @GetMapping()
     public String listPublications(Model model) {
-        model.addAttribute("publications", publicationService.getAllPublications());
+        model.addAttribute("publications", publicationService.getActualPublications());
         return "publication/listAll";
     }
     @GetMapping("/own")

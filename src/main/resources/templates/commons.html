@@ -12,6 +12,7 @@
       <a class="p-3 text-light text-decoration-none fw-bold" th:href="@{/}">Main Page</a>
       <a sec:authorize-url="/publications" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications}">Publications</a>
       <a sec:authorize-url="/publications/own" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/own}">Own publications</a>
+      <a sec:authorize-url="/publications/moderate" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/moderate}">Moderate publications</a>
       <a sec:authorize-url="/categories" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/categories}">Categories</a>
       <a sec:authorize-url="/publications/add" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/add}">Add publication</a>
       <a sec:authorize-url="/categories/add" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/categories/add}">Add category</a>

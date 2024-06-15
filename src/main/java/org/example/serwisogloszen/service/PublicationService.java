@@ -17,11 +17,10 @@ import java.util.List;
 public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final CategoryRepository categoryRepository;
-
     private final UserRepository userRepository;
 
-    public List<Publication> getAllPublications() {
-        return publicationRepository.findAll();
+    public List<Publication> getActualPublications() {
+        return publicationRepository.findByModerationState(Publication.ModerationState.ACCEPTED);
     }
     public List<Publication> getOwnPublications() {
         UserEntity user = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
