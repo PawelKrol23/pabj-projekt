@@ -10,12 +10,34 @@
   <div class="container-fluid d-flex justify-content-between">
     <div class="d-flex">
       <a class="p-3 text-light text-decoration-none fw-bold" th:href="@{/}">Main Page</a>
-      <a sec:authorize-url="/publications" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications}">Publications</a>
-      <a sec:authorize-url="/publications/own" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/own}">Own publications</a>
-      <a sec:authorize-url="/publications/moderate" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/moderate}">Moderate publications</a>
-      <a sec:authorize-url="/categories" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/categories}">Categories</a>
-      <a sec:authorize-url="/publications/add" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/add}">Add publication</a>
-      <a sec:authorize-url="/categories/add" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/categories/add}">Add category</a>
+
+      <div class="p-3 text-light text-decoration-none fw-bold dropdown">
+        <a class="text-light text-decoration-none fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Publications
+        </a>
+        <ul class="dropdown-menu">
+          <li><a sec:authorize-url="/publications" class="dropdown-item" th:href="@{/publications}">List all</a></li>
+          <li><a sec:authorize-url="/publications/own" class="dropdown-item" th:href="@{/publications/own}">List own</a></li>
+          <li><a sec:authorize-url="/publications/add" class="dropdown-item" th:href="@{/publications/add}">Add new</a></li>
+          <li><a sec:authorize-url="/publications/moderate" class="dropdown-item" th:href="@{/publications/moderate}">Moderate</a></li>
+        </ul>
+      </div>
+<!--      <a sec:authorize-url="/publications" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications}">Publications</a>-->
+<!--      <a sec:authorize-url="/publications/own" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/own}">Own publications</a>-->
+<!--      <a sec:authorize-url="/publications/moderate" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/moderate}">Moderate publications</a>-->
+<!--      <a sec:authorize-url="/publications/add" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/publications/add}">Add publication</a>-->
+
+      <div sec:authorize-url="/categories" class="p-3 text-light text-decoration-none fw-bold dropdown">
+        <a class="text-light text-decoration-none fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Categories
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" th:href="@{/categories}">List all</a></li>
+          <li><a class="dropdown-item" th:href="@{/categories/add}">Add new</a></li>
+        </ul>
+      </div>
+<!--      <a sec:authorize-url="/categories" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/categories}">Categories</a>-->
+<!--      <a sec:authorize-url="/categories/add" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/categories/add}">Add category</a>-->
     </div>
     <div class="d-flex">
       <a sec:authorize="isAnonymous()" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/user/login}">Login</a>
