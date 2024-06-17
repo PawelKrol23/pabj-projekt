@@ -43,6 +43,8 @@ public class Publication {
     @Enumerated(EnumType.STRING)
     private ModerationState moderationState = ModerationState.WAITING_FOR_APPROVAL;
 
+    private LocalDateTime expirationDate = null;
+
     @CreationTimestamp
     private LocalDateTime creationDate;
     @UpdateTimestamp
