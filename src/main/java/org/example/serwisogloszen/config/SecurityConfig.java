@@ -28,8 +28,12 @@ public class SecurityConfig {
                         .requestMatchers("/categories/add").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/edit/*").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/delete/*").hasAnyAuthority("ADMIN")
+
+                        .requestMatchers("/user/register").permitAll()
+
                         .requestMatchers("/publications/moderate").hasAnyAuthority("ADMIN")
                         .requestMatchers("/publications/moderate/**").hasAnyAuthority("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> {

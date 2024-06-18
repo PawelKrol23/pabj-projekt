@@ -2,6 +2,7 @@ package org.example.serwisogloszen.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.example.serwisogloszen.Enum.Rola;
@@ -22,6 +23,8 @@ public class UserEntity {
     private String login;
     @Size(min = 5, max = 100)
     private String password;
+    @Email
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Rola rola;
