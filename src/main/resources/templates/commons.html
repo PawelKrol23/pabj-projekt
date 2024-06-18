@@ -19,6 +19,7 @@
     <div class="d-flex">
       <a sec:authorize="isAnonymous()" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/user/login}">Login</a>
       <a sec:authorize="isAnonymous()" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/user/register}">Register</a>
+      <a sec:authorize="!isAnonymous()" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/user/profile}">Profile</a>
       <a sec:authorize="!isAnonymous()" class="p-3 text-light text-decoration-none fw-bold" th:href="@{/user/logout}">Logout</a>
     </div>
   </div>

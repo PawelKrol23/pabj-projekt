@@ -32,12 +32,17 @@ public class UserController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/profile")
+    public String userProfile(Model model){
+        model.addAttribute("user",userService.getUser( SecurityContextHolder.getContext().getAuthentication().getName()));
+        return "user/profile";
+    }
     @GetMapping("/register")
     public String addUserForm(Model model){
         model.addAttribute("user", new UserDTO());
         return "user/register";
     }
-
 
     @PostMapping("/register")
     public String addUser(@Valid @ModelAttribute("user") UserDTO dto,
@@ -49,4 +54,22 @@ public class UserController {
         userService.addUser(dto);
         return "redirect:/login";
     }
+
+    @GetMapping("/edit")
+    public String editUserForm(Model model) {
+        model.addAttribute("user", userService.getUser(SecurityContextHolder.getContext().getAuthentication().getName()));
+        return "user/edit";
+    }
+
+    @PostMapping("/edit")
+    public String updateUser(@Valid @ModelAttribute("user") UserDTO userDTO,
+                             BindingResult bindingResult,
+                             Model model) {
+        if (bindingResult.hasErrors()) {
+            return "user/edit";
+        }
+        userService.updateUser(userDTO);
+        return "redirect:/user/profile";
+    }
+
 }
