@@ -8,6 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -31,6 +34,10 @@ class UserControllerTest {
 
     @InjectMocks
     private UserController userController;
+    @Mock
+    private Authentication authentication;
+    @Mock
+    private SecurityContext securityContext;
 
     @Test
     void testAddUser_WhenBindingResultHasErrors() {
@@ -86,6 +93,9 @@ class UserControllerTest {
     @Test
     void testUserProfile() {
         // given
+        SecurityContextHolder.setContext(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn("testUser");
         String username = "testUser";
         when(userService.getUser(username)).thenReturn(new UserEntity());
 
