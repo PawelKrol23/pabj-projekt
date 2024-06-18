@@ -10,10 +10,7 @@
 <div th:insert="~{commons :: navbar}"></div>
 
 <div class="container mt-4">
-  <h1 class="text-center">List of Publications</h1>
-  <div class="d-flex justify-content-center mb-2">
-    <a th:href="@{/publications/add}" class="btn btn-primary my-3" role="button">Add new Publication +</a>
-  </div>
+  <h1 class="text-center">List of Publications to moderate</h1>
   <div class="row">
     <div class="col-md-4" th:each="publication : ${publications}">
       <div class="card mb-4 shadow-sm">
@@ -30,18 +27,12 @@
               <small class="text-muted" th:text="'Created at: ' + ${#temporals.format(publication.creationDate, 'dd-MM-yyyy HH:mm')}">Created at: Date</small>
             </div>
           </div>
-          <div class="row mb-2">
-            <div class="col-6">
-              <small class="text-muted" th:text="'Status: ' + ${publication.moderationState}">Status: </small>
-            </div>
-            <div class="col-6" th:if="${publication.expirationDate != null}">
-              <small class="text-muted" th:text="'Expiration time: ' + ${#temporals.format(publication.expirationDate, 'dd-MM-yyyy HH:mm')}">Expiration time: Date</small>
-            </div>
-          </div>
           <div class="d-flex justify-content-center align-items-center mt-3">
-            <a th:href="@{|/publications/edit/${publication.id}|} "class="btn btn-sm btn-outline-info me-2 " role="button">Edit</a>
-            <form method="post" th:action="@{|/publications/delete/${publication.id}|}">
-              <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+            <form method="post" th:action="@{|/publications/moderate/${publication.id}/accept|}">
+              <button type="submit" class="btn btn-sm btn-outline-success me-2">Accept</button>
+            </form>
+            <form method="post" th:action="@{|/publications/moderate/${publication.id}/reject|}">
+              <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
             </form>
           </div>
         </div>

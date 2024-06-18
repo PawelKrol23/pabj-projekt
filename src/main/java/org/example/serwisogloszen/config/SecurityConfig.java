@@ -6,16 +6,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
@@ -33,7 +28,12 @@ public class SecurityConfig {
                         .requestMatchers("/categories/add").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/edit/*").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/delete/*").hasAnyAuthority("ADMIN")
+
                         .requestMatchers("/user/register").permitAll()
+
+                        .requestMatchers("/publications/moderate").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/publications/moderate/**").hasAnyAuthority("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> {
@@ -47,7 +47,6 @@ public class SecurityConfig {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        int rounds = 12;
         return NoOpPasswordEncoder.getInstance();
     }
 

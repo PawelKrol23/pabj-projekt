@@ -10,6 +10,7 @@ import org.example.serwisogloszen.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,15 +18,14 @@ import java.util.List;
 public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final CategoryRepository categoryRepository;
-
     private final UserRepository userRepository;
 
-    public List<Publication> getAllPublications() {
-        return publicationRepository.findAll();
+    public List<Publication> getActualPublications() {
+        return publicationRepository.findByModerationStateAndExpirationDateAfter(Publication.ModerationState.ACCEPTED, LocalDateTime.now());
     }
     public List<Publication> getOwnPublications() {
         UserEntity user = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return user.getPublications();
+        return publicationRepository.findByUser(user);
     }
     public Publication getPublicationById(Long publicationId) {
         return publicationRepository.findById(publicationId).orElseThrow();
@@ -37,6 +37,7 @@ public class PublicationService {
                 .description(dto.getDescription())
                 .category(categoryRepository.findByName(dto.getCategoryName()))
                 .user(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()))
+                .moderationState(Publication.ModerationState.WAITING_FOR_APPROVAL)
                 .build();
 
         return publicationRepository.save(newPublication);
@@ -54,5 +55,22 @@ public class PublicationService {
 
     public void deletePublicationById(Long publicationId) {
         publicationRepository.deleteById(publicationId);
+    }
+
+    public List<Publication> getPublicationsToModerate() {
+        return publicationRepository.findByModerationState(Publication.ModerationState.WAITING_FOR_APPROVAL);
+    }
+
+    public void acceptPublicationById(Long publicationId) {
+        var foundPublication = getPublicationById(publicationId);
+        foundPublication.setModerationState(Publication.ModerationState.ACCEPTED);
+        foundPublication.setExpirationDate(LocalDateTime.now().plusDays(7));
+        publicationRepository.save(foundPublication);
+    }
+
+    public void rejectPublicationById(Long publicationId) {
+        var foundPublication = getPublicationById(publicationId);
+        foundPublication.setModerationState(Publication.ModerationState.REJECTED);
+        publicationRepository.save(foundPublication);
     }
 }

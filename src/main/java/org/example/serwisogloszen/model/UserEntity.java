@@ -8,11 +8,9 @@ import lombok.*;
 import org.example.serwisogloszen.Enum.Rola;
 
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Setter
 @Getter
 @Builder
@@ -33,4 +31,11 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Publication> publications;
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "login = " + login + ", " +
+                "rola = " + rola + ")";
+    }
 }
