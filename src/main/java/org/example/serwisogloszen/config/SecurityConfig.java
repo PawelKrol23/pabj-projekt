@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/categories/add").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/edit/*").hasAnyAuthority("ADMIN")
                         .requestMatchers("/categories/delete/*").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/user/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> {
