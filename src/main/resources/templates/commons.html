@@ -11,7 +11,7 @@
     <div class="d-flex">
       <a class="p-3 text-light text-decoration-none fw-bold" th:href="@{/}">Main Page</a>
 
-      <div class="p-3 text-light text-decoration-none fw-bold dropdown">
+      <div sec:authorize="!isAnonymous()" class="p-3 text-light text-decoration-none fw-bold dropdown">
         <a class="text-light text-decoration-none fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           Publications
         </a>
