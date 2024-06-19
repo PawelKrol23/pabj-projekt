@@ -1,12 +1,14 @@
 package org.example.serwisogloszen.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.serwisogloszen.model.EmailDetails;
 import org.example.serwisogloszen.model.Publication;
 import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.PublicationDTO;
 import org.example.serwisogloszen.repository.CategoryRepository;
 import org.example.serwisogloszen.repository.PublicationRepository;
 import org.example.serwisogloszen.repository.UserRepository;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class PublicationService {
     private final PublicationRepository publicationRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final JmsTemplate jmsTemplate;
 
     public List<Publication> getActualPublications() {
         return publicationRepository.findByModerationStateAndExpirationDateAfter(Publication.ModerationState.ACCEPTED, LocalDateTime.now());
@@ -66,6 +69,13 @@ public class PublicationService {
         foundPublication.setModerationState(Publication.ModerationState.ACCEPTED);
         foundPublication.setExpirationDate(LocalDateTime.now().plusDays(7));
         publicationRepository.save(foundPublication);
+
+        var emailDetails = EmailDetails.builder()
+                .to("someone")
+                .subject("subject")
+                .body("body")
+                .build();
+        jmsTemplate.convertAndSend("mailbox", emailDetails);
     }
 
     public void rejectPublicationById(Long publicationId) {
