@@ -20,7 +20,7 @@ public class UserService {
                 .login(dto.getLogin())
                 .password(dto.getPassword())
                 .email(dto.getEmail())
-                .rola(UserEntity.Rola.USER)
+                .role(UserEntity.Role.USER)
                 .build();
         return userRepository.save(newUser);
     }
