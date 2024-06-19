@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.example.serwisogloszen.Enum.Rola;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
@@ -37,5 +37,15 @@ public class UserEntity {
                 "id = " + id + ", " +
                 "login = " + login + ", " +
                 "rola = " + rola + ")";
+    }
+
+    public enum Rola implements GrantedAuthority {
+        ADMIN,
+        USER;
+
+        @Override
+        public String getAuthority() {
+            return name();
+        }
     }
 }

@@ -1,6 +1,5 @@
 package org.example.serwisogloszen.service;
 
-import org.example.serwisogloszen.Enum.Rola;
 import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.UserDTO;
 import org.example.serwisogloszen.repository.UserRepository;
@@ -55,7 +54,7 @@ class UserServiceTest {
                 .login(userDTO.getLogin())
                 .password(userDTO.getPassword())
                 .email(userDTO.getEmail())
-                .rola(Rola.USER)
+                .rola(UserEntity.Rola.USER)
                 .build();
 
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> {
@@ -72,7 +71,7 @@ class UserServiceTest {
         assertEquals("newUser", result.getLogin());
         assertEquals("password", result.getPassword());
         assertEquals("newUser@example.com", result.getEmail());
-        assertEquals(Rola.USER, result.getRola());
+        assertEquals(UserEntity.Rola.USER, result.getRola());
         assertNotNull(result.getId());
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
@@ -95,7 +94,7 @@ class UserServiceTest {
                 .login("currentUser")
                 .password("oldPassword")
                 .email("currentUser@example.com")
-                .rola(Rola.USER)
+                .rola(UserEntity.Rola.USER)
                 .build();
 
         when(userRepository.findByLogin(anyString())).thenReturn(existingUser);

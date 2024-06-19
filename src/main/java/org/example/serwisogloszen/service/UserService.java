@@ -1,7 +1,6 @@
 package org.example.serwisogloszen.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.serwisogloszen.Enum.Rola;
 import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.UserDTO;
 import org.example.serwisogloszen.repository.UserRepository;
@@ -21,7 +20,7 @@ public class UserService {
                 .login(dto.getLogin())
                 .password(dto.getPassword())
                 .email(dto.getEmail())
-                .rola(Rola.USER)
+                .rola(UserEntity.Rola.USER)
                 .build();
         return userRepository.save(newUser);
     }
