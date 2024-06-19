@@ -15,4 +15,6 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findByModerationStateAndExpirationDateAfter(Publication.ModerationState moderationState, LocalDateTime expirationDate);
 
     List<Publication> findByUser(UserEntity user);
+
+    List<Publication> findByExpirationDateBeforeAndExpirationEmailSent(LocalDateTime expirationDate, boolean expirationEmailSent);
 }

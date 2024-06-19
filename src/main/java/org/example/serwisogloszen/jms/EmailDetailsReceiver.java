@@ -16,5 +16,8 @@ public class EmailDetailsReceiver {
         if (emailDetails.getType() == EmailDetails.Type.PUBLICATION_ACCEPTED) {
             emailService.sendAcceptationEmail(emailDetails);
         }
+        else if (emailDetails.getType() == EmailDetails.Type.PUBLICATION_EXPIRED) {
+            emailService.sendExpirationEmail(emailDetails);
+        }
     }
 }

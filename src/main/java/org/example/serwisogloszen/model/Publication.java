@@ -44,6 +44,8 @@ public class Publication {
     private ModerationState moderationState = ModerationState.WAITING_FOR_APPROVAL;
 
     private LocalDateTime expirationDate = null;
+    @Column(columnDefinition = "boolean default false")
+    private boolean expirationEmailSent = false;
 
     @CreationTimestamp
     private LocalDateTime creationDate;

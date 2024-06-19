@@ -54,7 +54,7 @@ class UserServiceTest {
                 .login(userDTO.getLogin())
                 .password(userDTO.getPassword())
                 .email(userDTO.getEmail())
-                .rola(UserEntity.Rola.USER)
+                .role(UserEntity.Role.USER)
                 .build();
 
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> {
@@ -71,7 +71,7 @@ class UserServiceTest {
         assertEquals("newUser", result.getLogin());
         assertEquals("password", result.getPassword());
         assertEquals("newUser@example.com", result.getEmail());
-        assertEquals(UserEntity.Rola.USER, result.getRola());
+        assertEquals(UserEntity.Role.USER, result.getRole());
         assertNotNull(result.getId());
         verify(userRepository, times(1)).save(any(UserEntity.class));
     }
@@ -94,7 +94,7 @@ class UserServiceTest {
                 .login("currentUser")
                 .password("oldPassword")
                 .email("currentUser@example.com")
-                .rola(UserEntity.Rola.USER)
+                .role(UserEntity.Role.USER)
                 .build();
 
         when(userRepository.findByLogin(anyString())).thenReturn(existingUser);

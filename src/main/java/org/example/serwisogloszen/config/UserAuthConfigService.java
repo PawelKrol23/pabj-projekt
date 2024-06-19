@@ -23,7 +23,7 @@ public class UserAuthConfigService implements UserDetailsService {
         } else {
             return User.withUsername(user.getLogin())
                     .password(user.getPassword())
-                    .authorities(user.getRola())
+                    .authorities(user.getRole())
                     .build();
         }
     }

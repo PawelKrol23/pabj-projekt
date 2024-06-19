@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
                     <p><strong>Password:</strong> <span th:text="${user.password}"></span></p>
-                    <p><strong>Role:</strong> <span th:text="${user.rola}"></span></p>
+                    <p><strong>Role:</strong> <span th:text="${user.getRole}"></span></p>
                     <div class="d-flex justify-content-end">
                         <a th:href="@{/user/edit}" class="btn btn-primary">Edit Profile</a>
                     </div>

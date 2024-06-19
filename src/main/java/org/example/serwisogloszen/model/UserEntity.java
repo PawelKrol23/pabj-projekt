@@ -27,7 +27,7 @@ public class UserEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Rola rola;
+    private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Publication> publications;
 
@@ -36,10 +36,10 @@ public class UserEntity {
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
                 "login = " + login + ", " +
-                "rola = " + rola + ")";
+                "rola = " + role + ")";
     }
 
-    public enum Rola implements GrantedAuthority {
+    public enum Role implements GrantedAuthority {
         ADMIN,
         USER;
 
