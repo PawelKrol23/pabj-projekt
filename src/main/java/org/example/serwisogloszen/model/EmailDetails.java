@@ -9,7 +9,14 @@ import lombok.*;
 @Builder
 @ToString
 public class EmailDetails {
-    private String to;
-    private String subject;
-    private String body;
+    private String destinationMail;
+    private String username;
+    private String publicationTitle;
+
+    public enum Type {
+        PUBLICATION_ACCEPTED,
+        PUBLICATION_EXPIRED,
+    }
+
+    private Type type;
 }

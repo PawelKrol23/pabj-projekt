@@ -70,11 +70,14 @@ public class PublicationService {
         foundPublication.setExpirationDate(LocalDateTime.now().plusDays(7));
         publicationRepository.save(foundPublication);
 
+        var user = foundPublication.getUser();
         var emailDetails = EmailDetails.builder()
-                .to("someone")
-                .subject("subject")
-                .body("body")
+                .destinationMail(user.getEmail())
+                .type(EmailDetails.Type.PUBLICATION_ACCEPTED)
+                .publicationTitle(foundPublication.getTitle())
+                .username(user.getLogin())
                 .build();
+
         jmsTemplate.convertAndSend("mailbox", emailDetails);
     }
 
