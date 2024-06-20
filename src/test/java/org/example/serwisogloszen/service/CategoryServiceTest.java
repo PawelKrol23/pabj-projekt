@@ -1,5 +1,6 @@
 package org.example.serwisogloszen.service;
 
+import org.example.serwisogloszen.exceptions.CategoryNotFoundException;
 import org.example.serwisogloszen.model.Category;
 import org.example.serwisogloszen.model.dto.CategoryDTO;
 import org.example.serwisogloszen.repository.CategoryRepository;
@@ -116,5 +117,15 @@ class CategoryServiceTest {
 
         // then
         verify(categoryRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void testGetCategoryByIdThrowsException() {
+        // given
+        when(categoryRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // when / then
+        assertThrows(CategoryNotFoundException.class, () -> categoryService.getCategoryById(1L));
+        verify(categoryRepository, times(1)).findById(anyLong());
     }
 }

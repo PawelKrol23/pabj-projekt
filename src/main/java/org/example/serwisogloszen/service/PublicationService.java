@@ -1,6 +1,8 @@
 package org.example.serwisogloszen.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.serwisogloszen.exceptions.PublicationNotFoundException;
+import org.example.serwisogloszen.exceptions.UserNotFoundException;
 import org.example.serwisogloszen.model.EmailDetails;
 import org.example.serwisogloszen.model.Publication;
 import org.example.serwisogloszen.model.UserEntity;
@@ -27,19 +29,25 @@ public class PublicationService {
         return publicationRepository.findByModerationStateAndExpirationDateAfter(Publication.ModerationState.ACCEPTED, LocalDateTime.now());
     }
     public List<Publication> getOwnPublications() {
-        UserEntity user = userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByLogin(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
         return publicationRepository.findByUser(user);
     }
     public Publication getPublicationById(Long publicationId) {
-        return publicationRepository.findById(publicationId).orElseThrow();
+        return publicationRepository.findById(publicationId)
+                .orElseThrow(() -> new PublicationNotFoundException(publicationId));
     }
 
     public Publication createNewPublication(PublicationDTO dto) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByLogin(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
         var newPublication = Publication.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
                 .category(categoryRepository.findByName(dto.getCategoryName()))
-                .user(userRepository.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()))
+                .user(user)
                 .moderationState(Publication.ModerationState.WAITING_FOR_APPROVAL)
                 .build();
 

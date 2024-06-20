@@ -1,5 +1,6 @@
 package org.example.serwisogloszen.service;
 
+import org.example.serwisogloszen.exceptions.UserNotFoundException;
 import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.UserDTO;
 import org.example.serwisogloszen.repository.UserRepository;
@@ -11,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +34,7 @@ class UserServiceTest {
         // given
         UserEntity user = new UserEntity();
         user.setLogin("testUser");
-        when(userRepository.findByLogin(anyString())).thenReturn(user);
+        when(userRepository.findByLogin(anyString())).thenReturn(Optional.of(user));
 
         // when
         UserEntity result = userService.getUser("testUser");
@@ -97,7 +100,7 @@ class UserServiceTest {
                 .role(UserEntity.Role.USER)
                 .build();
 
-        when(userRepository.findByLogin(anyString())).thenReturn(existingUser);
+        when(userRepository.findByLogin(anyString())).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
@@ -110,5 +113,14 @@ class UserServiceTest {
         assertEquals("updatedUser@example.com", result.getEmail());
         verify(userRepository, times(1)).findByLogin(anyString());
         verify(userRepository, times(1)).save(any(UserEntity.class));
+    }
+    @Test
+    void testGetUserThrowsException() {
+        // given
+        when(userRepository.findByLogin(anyString())).thenReturn(Optional.empty());
+
+        // when / then
+        assertThrows(UserNotFoundException.class, () -> userService.getUser("nonExistentUser"));
+        verify(userRepository, times(1)).findByLogin(anyString());
     }
 }

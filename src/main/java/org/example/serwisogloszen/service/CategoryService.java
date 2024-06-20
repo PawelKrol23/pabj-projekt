@@ -1,6 +1,7 @@
 package org.example.serwisogloszen.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.serwisogloszen.exceptions.CategoryNotFoundException;
 import org.example.serwisogloszen.model.Category;
 import org.example.serwisogloszen.model.Publication;
 import org.example.serwisogloszen.model.dto.CategoryDTO;
@@ -31,7 +32,8 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow();
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException(categoryId));
     }
 
     public Category updateCategory(Long categoryId, CategoryDTO dto) {

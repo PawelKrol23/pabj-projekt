@@ -16,7 +16,10 @@ public class UserAuthConfigService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = users.findByLogin(username);
+
+        UserEntity user = users.findByLogin(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found!"));
+
 
         if (user == null) {
             throw new UsernameNotFoundException("User " + username + " not found!");
