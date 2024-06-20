@@ -2,23 +2,23 @@ package org.example.serwisogloszen.service;
 
 import org.example.serwisogloszen.exceptions.PublicationNotFoundException;
 import org.example.serwisogloszen.model.Category;
+import org.example.serwisogloszen.model.EmailDetails;
 import org.example.serwisogloszen.model.Publication;
 import org.example.serwisogloszen.model.UserEntity;
 import org.example.serwisogloszen.model.dto.PublicationDTO;
 import org.example.serwisogloszen.repository.CategoryRepository;
 import org.example.serwisogloszen.repository.PublicationRepository;
 import org.example.serwisogloszen.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,23 +28,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class PublicationServiceTest {
 
-    @Mock
-    private PublicationRepository publicationRepository;
-
-    @Mock
-    private CategoryRepository categoryRepository;
-
-    @Mock
-    private UserRepository userRepository;
+    @Mock private PublicationRepository publicationRepository;
+    @Mock private CategoryRepository categoryRepository;
+    @Mock private UserRepository userRepository;
+    @Mock private JmsTemplate jmsTemplate;
 
     @InjectMocks
     private PublicationService publicationService;
-
-    @BeforeEach
-    void setUp() {
-        // Setting up the security context for authenticated user
-
-    }
 
     @Test
     void testGetActualPublications() {
@@ -182,41 +172,29 @@ class PublicationServiceTest {
         verify(publicationRepository, times(1)).findByModerationState(eq(Publication.ModerationState.WAITING_FOR_APPROVAL));
     }
 
-//    @Test
-//    void testAcceptPublicationById() {
-//        // given
-//        Publication publication = new Publication();
-//        when(publicationRepository.findById(anyLong())).thenReturn(Optional.of(publication));
-//
-//        // when
-//        publicationService.acceptPublicationById(1L);
-//
-//        // then
-//        assertEquals(Publication.ModerationState.ACCEPTED, publication.getModerationState());
-//        verify(publicationRepository, times(1)).findById(anyLong());
-//        verify(publicationRepository, times(1)).save(any(Publication.class));
-//    }
-//    @Test
-//    void testAcceptPublicationById() {
-//        // given
-//        UserEntity user = new UserEntity();
-//        user.setEmail("test@example.com"); // Ensure the user has an email set
-//
-//        Publication publication = new Publication();
-//        publication.setUser(user); // Set the user for the publication
-//
-//        when(publicationRepository.findById(anyLong())).thenReturn(Optional.of(publication));
-//
-//        // when
-//        publicationService.acceptPublicationById(1L);
-//
-//        // then
-//        assertEquals(Publication.ModerationState.ACCEPTED, publication.getModerationState());
-//        assertNotNull(publication.getUser()); // Ensure user is not null
-//        assertEquals("test@example.com", publication.getUser().getEmail()); // Verify user email
-//        verify(publicationRepository, times(1)).findById(anyLong());
-//        verify(publicationRepository, times(1)).save(any(Publication.class));
-//    }
+    @Test
+    void testAcceptPublicationById() {
+        // given
+        UserEntity user = new UserEntity();
+        user.setEmail("test@example.com"); // Ensure the user has an email set
+
+        Publication publication = new Publication();
+        publication.setId(1L);
+        publication.setUser(user); // Set the user for the publication
+
+        when(publicationRepository.findById(1L)).thenReturn(Optional.of(publication));
+
+        // when
+        publicationService.acceptPublicationById(1L);
+
+        // then
+        assertEquals(Publication.ModerationState.ACCEPTED, publication.getModerationState());
+        assertNotNull(publication.getUser()); // Ensure user is not null
+        assertEquals("test@example.com", publication.getUser().getEmail()); // Verify user email
+        verify(publicationRepository, times(1)).findById(anyLong());
+        verify(publicationRepository, times(1)).save(any(Publication.class));
+        verify(jmsTemplate, times(1)).convertAndSend(anyString(), any(EmailDetails.class));
+    }
 
     @Test
     void testRejectPublicationById() {
@@ -232,6 +210,7 @@ class PublicationServiceTest {
         verify(publicationRepository, times(1)).findById(anyLong());
         verify(publicationRepository, times(1)).save(any(Publication.class));
     }
+
     @Test
     void testGetPublicationThrowsPublicationNotFoundException() {
         // given
